@@ -1,0 +1,112 @@
+package org.powernukkitx.spectrum.network;
+
+import cn.nukkit.Player;
+import cn.nukkit.Server;
+import cn.nukkit.network.NetworkInterface;
+import cn.nukkit.network.connection.BedrockPong;
+import cn.nukkit.network.connection.BedrockSession;
+import cn.nukkit.network.process.NetworkState;
+import org.jetbrains.annotations.Nullable;
+import oshi.hardware.NetworkIF;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.List;
+
+public final class ProxyInterface implements NetworkInterface {
+
+    @Override
+    public NetworkState getState() {
+        return null;
+    }
+
+    @Override
+    public void setState(NetworkState state) {
+
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
+    @Override
+    public double getUpload() {
+        return 0;
+    }
+
+    @Override
+    public double getDownload() {
+        return 0;
+    }
+
+    @Override
+    public void resetStatistics() {
+
+    }
+
+    @Override
+    public void process() {
+
+    }
+
+    @Override
+    public void processInterfaces() {
+
+    }
+
+    @Override
+    public Server getServer() {
+        return null;
+    }
+
+    @Override
+    public @Nullable List<NetworkIF> getHardWareNetworkInterfaces() {
+        return List.of();
+    }
+
+    @Override
+    public BedrockSession getSession(InetSocketAddress address) {
+        return null;
+    }
+
+    @Override
+    public void replaceSessionAddress(InetSocketAddress oldAddress, InetSocketAddress newAddress, BedrockSession newSession) {
+
+    }
+
+    @Override
+    public void onSessionDisconnect(InetSocketAddress address) {
+
+    }
+
+    @Override
+    public int getNetworkLatency(Player player) {
+        return 0;
+    }
+
+    @Override
+    public void blockAddress(InetAddress address) {
+
+    }
+
+    @Override
+    public void blockAddress(InetAddress address, int timeout) {
+
+    }
+
+    @Override
+    public void unblockAddress(InetAddress address) {
+
+    }
+
+    @Override
+    public boolean isAddressBlocked(InetSocketAddress address) {
+        return false;
+    }
+
+    @Override
+    public BedrockPong getPong() {
+        return null;
+    }
+}
