@@ -27,18 +27,22 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 import cn.nukkit.network.connection.util.HandleByteBuf;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ConnectionResponsePacket extends Packet {
     public static int RESPONSE_SUCCESS = 0;
     public static int RESPONSE_UNAUTHORIZED = 1;
     public static int RESPONSE_FAIL = 2;
 
+    @Getter
+    @Setter
+    public int response;
+
     @Override
     protected int getId() {
         return PacketIds.CONNECTION_RESPONSE;
     }
-
-    public int response;
 
     @Override
     protected void decode(HandleByteBuf stream) {
@@ -47,12 +51,6 @@ public class ConnectionResponsePacket extends Packet {
 
     @Override
     protected void encode(HandleByteBuf stream) {
-        stream.writeByte(this.response);
-    }
-
-    public static ConnectionResponsePacket create(int response) {
-        ConnectionResponsePacket packet = new ConnectionResponsePacket();
-        packet.response = response;
-        return packet;
+        stream.writeByte(this.getResponse());
     }
 }

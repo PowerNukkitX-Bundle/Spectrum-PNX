@@ -29,23 +29,37 @@ package org.powernukkitx.spectrum;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.ConfigSection;
 import org.powernukkitx.spectrum.api.APIThread;
+import org.powernukkitx.spectrum.listener.EventListener;
 
 public class Spectrum extends PluginBase {
     protected APIThread apiThread = null;
 
+    private static Spectrum instance;
+
+    public static Spectrum get() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         if (this.getConfig().exists("api")) {
             ConfigSection section = this.getConfig().getSection("api");
             if (section.getBoolean("enabled", true)) {
-                this.apiThread = new APIThread(
-                        this.getLogger(),
-                        section.getString("token"),
-                        section.getString("address"),
-                        section.getInt("port")
-                );
-                this.apiThread.start();
+                registerAPIThread(section);
             }
         }
+
+        getServer().getPluginManager().registerEvents(new EventListener(), this);
+    }
+
+    private void registerAPIThread(ConfigSection section) {
+        this.apiThread = new APIThread(
+                this.getLogger(),
+                section.getString("token"),
+                section.getString("address"),
+                section.getInt("port")
+        );
+        this.apiThread.start();
     }
 }

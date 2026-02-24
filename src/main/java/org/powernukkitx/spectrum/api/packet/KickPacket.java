@@ -27,15 +27,20 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 import cn.nukkit.network.connection.util.HandleByteBuf;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class KickPacket extends Packet {
+
+    public String reason;
+    public String username;
+
     @Override
     protected int getId() {
         return PacketIds.KICK;
     }
-
-    public String reason;
-    public String username;
 
     @Override
     protected void decode(HandleByteBuf stream) {
@@ -44,13 +49,6 @@ public class KickPacket extends Packet {
 
     @Override
     protected void encode(HandleByteBuf stream) {
-        stream.writeString(this.reason);
-    }
-
-    public static KickPacket create(String reason, String username) {
-        KickPacket packet = new KickPacket();
-        packet.reason = reason;
-        packet.username = username;
-        return packet;
+        stream.writeString(this.getReason());
     }
 }

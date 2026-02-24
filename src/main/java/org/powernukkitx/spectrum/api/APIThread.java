@@ -81,8 +81,11 @@ public class APIThread extends Thread {
         }
 
         this.connect();
-        this.write(ConnectionRequestPacket.create(this.token));
-        this.flush();
+
+        ConnectionRequestPacket requestPacket = new ConnectionRequestPacket();
+        requestPacket.setToken(token);
+
+        this.sendPacketImmediately(requestPacket);
 
         ByteBuf connectionResponse = this.read();
         if (connectionResponse == null) {
@@ -170,7 +173,7 @@ public class APIThread extends Thread {
         }
     }
 
-    public void write(Packet packet) {
+    public void sendPacket(Packet packet) {
         if (!this.running) {
             return;
         }
@@ -227,5 +230,10 @@ public class APIThread extends Thread {
                 }
             }
         }
+    }
+
+    public void sendPacketImmediately(Packet packet) {
+        sendPacket(packet);
+        flush();
     }
 }

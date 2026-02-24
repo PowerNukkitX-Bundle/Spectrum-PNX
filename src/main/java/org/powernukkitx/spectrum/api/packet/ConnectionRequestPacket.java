@@ -27,14 +27,14 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 import cn.nukkit.network.connection.util.HandleByteBuf;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ConnectionRequestPacket extends Packet {
-    @Override
-    protected int getId() {
-        return PacketIds.CONNECTION_REQUEST;
-    }
 
-     public String token;
+    public String token;
 
     @Override
     protected void decode(HandleByteBuf stream) {
@@ -43,12 +43,11 @@ public class ConnectionRequestPacket extends Packet {
 
     @Override
     protected void encode(HandleByteBuf stream) {
-        stream.writeString(this.token);
+        stream.writeString(this.getToken());
     }
 
-    public static ConnectionRequestPacket create(String token) {
-        ConnectionRequestPacket packet = new ConnectionRequestPacket();
-        packet.token = token;
-        return packet;
+    @Override
+    protected int getId() {
+        return PacketIds.CONNECTION_REQUEST;
     }
 }

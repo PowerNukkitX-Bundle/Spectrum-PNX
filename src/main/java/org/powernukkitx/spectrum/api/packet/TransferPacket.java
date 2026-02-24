@@ -27,15 +27,20 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 import cn.nukkit.network.connection.util.HandleByteBuf;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class TransferPacket extends Packet {
+
+    public String address;
+    public String username;
+
     @Override
     protected int getId() {
         return PacketIds.TRANSFER;
     }
-
-    public String address;
-    public String username;
 
     @Override
     protected void decode(HandleByteBuf stream) {
@@ -45,14 +50,7 @@ public class TransferPacket extends Packet {
 
     @Override
     protected void encode(HandleByteBuf stream) {
-        stream.writeString(this.address);
-        stream.writeString(this.username);
-    }
-
-    public static TransferPacket create(String address, String username) {
-        TransferPacket packet = new TransferPacket();
-        packet.address = address;
-        packet.username = username;
-        return packet;
+        stream.writeString(this.getAddress());
+        stream.writeString(this.getUsername());
     }
 }
