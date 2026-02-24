@@ -32,7 +32,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class KickPacket extends Packet {
+public class KickPacket extends SpectrumPacket {
 
     public String reason;
     public String username;

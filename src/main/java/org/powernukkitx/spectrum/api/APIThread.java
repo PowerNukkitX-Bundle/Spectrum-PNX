@@ -26,14 +26,17 @@ package org.powernukkitx.spectrum.api;
   @auto-license
  */
 
+import cn.nukkit.Server;
 import cn.nukkit.network.connection.util.HandleByteBuf;
 import cn.nukkit.plugin.PluginLogger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.powernukkitx.spectrum.Spectrum;
 import org.powernukkitx.spectrum.api.packet.ConnectionRequestPacket;
 import org.powernukkitx.spectrum.api.packet.ConnectionResponsePacket;
-import org.powernukkitx.spectrum.api.packet.Packet;
+import org.powernukkitx.spectrum.api.packet.SpectrumPacket;
 import org.powernukkitx.spectrum.api.packet.PacketIds;
+import org.powernukkitx.spectrum.event.SpectrumPacketSendEvent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -173,10 +176,16 @@ public class APIThread extends Thread {
         }
     }
 
-    public void sendPacket(Packet packet) {
+    public void sendPacket(SpectrumPacket packet) {
         if (!this.running) {
             return;
         }
+
+        SpectrumPacketSendEvent event = new SpectrumPacketSendEvent(Spectrum.get(), packet);
+
+        Server.getInstance().getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) return;
 
         ByteBuf buf = Unpooled.buffer();
         packet.encode0(HandleByteBuf.of(buf));
@@ -232,7 +241,7 @@ public class APIThread extends Thread {
         }
     }
 
-    public void sendPacketImmediately(Packet packet) {
+    public void sendPacketImmediately(SpectrumPacket packet) {
         sendPacket(packet);
         flush();
     }

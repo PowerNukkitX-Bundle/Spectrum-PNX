@@ -28,7 +28,7 @@ package org.powernukkitx.spectrum.api.packet;
 
 import cn.nukkit.network.connection.util.HandleByteBuf;
 
-public abstract class Packet {
+public abstract class SpectrumPacket {
     protected abstract int getId();
 
     protected abstract void decode(HandleByteBuf stream);

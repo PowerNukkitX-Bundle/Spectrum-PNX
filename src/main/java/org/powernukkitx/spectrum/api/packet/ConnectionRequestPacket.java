@@ -32,7 +32,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ConnectionRequestPacket extends Packet {
+public class ConnectionRequestPacket extends SpectrumPacket {
 
     public String token;
 

@@ -30,7 +30,7 @@ import cn.nukkit.network.connection.util.HandleByteBuf;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ConnectionResponsePacket extends Packet {
+public class ConnectionResponsePacket extends SpectrumPacket {
     public static int RESPONSE_SUCCESS = 0;
     public static int RESPONSE_UNAUTHORIZED = 1;
     public static int RESPONSE_FAIL = 2;
