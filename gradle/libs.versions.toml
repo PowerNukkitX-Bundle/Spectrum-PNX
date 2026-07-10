@@ -1,0 +1,7 @@
+[versions]
+powernukkitx = "2.0.0-SNAPSHOT"
+lombok = "1.18.32"
+
+[libraries]
+powernukkitx-server = { module = "org.powernukkitx:server", version.ref = "powernukkitx" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
