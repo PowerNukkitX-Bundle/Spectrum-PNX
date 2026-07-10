@@ -29,20 +29,45 @@ package org.powernukkitx.spectrum;
 import org.powernukkitx.plugin.PluginBase;
 import org.powernukkitx.utils.ConfigSection;
 import org.powernukkitx.spectrum.api.APIThread;
+import org.powernukkitx.spectrum.api.packet.KickPacket;
+import org.powernukkitx.spectrum.api.packet.TransferPacket;
 import org.powernukkitx.spectrum.listener.EventListener;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Spectrum extends PluginBase {
     protected APIThread apiThread = null;
 
     private static Spectrum instance;
 
+    // packet ids the proxy must decode; default is decode-all, entries here opt out
+    private final Set<Integer> decodeDisabled = new HashSet<>();
+
     public static Spectrum get() {
         return instance;
+    }
+
+    public APIThread getApiThread() {
+        return this.apiThread;
+    }
+
+    public boolean shouldPacketDecode(int packetId) {
+        return !this.decodeDisabled.contains(packetId);
+    }
+
+    public void registerPacketDecode(int packetId, boolean decode) {
+        if (decode) {
+            this.decodeDisabled.remove(packetId);
+        } else {
+            this.decodeDisabled.add(packetId);
+        }
     }
 
     @Override
     public void onEnable() {
         instance = this;
+        this.saveDefaultConfig();
         if (this.getConfig().exists("api")) {
             ConfigSection section = this.getConfig().getSection("api");
             if (section.getBoolean("enabled", true)) {
@@ -50,7 +75,39 @@ public class Spectrum extends PluginBase {
             }
         }
 
-        getServer().getPluginManager().registerEvents(new EventListener(), this);
+        getServer().getPluginManager().registerEvents(new EventListener(this), this);
+    }
+
+    @Override
+    public void onDisable() {
+        if (this.apiThread != null) {
+            this.apiThread.interrupt();
+            this.apiThread = null;
+        }
+    }
+
+    public boolean transfer(String username, String address) {
+        if (this.apiThread == null) {
+            return false;
+        }
+
+        TransferPacket packet = new TransferPacket();
+        packet.setAddress(address);
+        packet.setUsername(username);
+        this.apiThread.sendPacket(packet);
+        return true;
+    }
+
+    public boolean kick(String username, String reason) {
+        if (this.apiThread == null) {
+            return false;
+        }
+
+        KickPacket packet = new KickPacket();
+        packet.setReason(reason);
+        packet.setUsername(username);
+        this.apiThread.sendPacket(packet);
+        return true;
     }
 
     private void registerAPIThread(ConfigSection section) {

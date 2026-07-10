@@ -27,8 +27,8 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 public interface PacketIds {
-    int CONNECTION_REQUEST = 0x01;
-    int CONNECTION_RESPONSE = 0x02;
-    int KICK = 0x03;
-    int TRANSFER = 0x04;
+    int CONNECTION_REQUEST = 0;
+    int CONNECTION_RESPONSE = 1;
+    int KICK = 2;
+    int TRANSFER = 3;
 }

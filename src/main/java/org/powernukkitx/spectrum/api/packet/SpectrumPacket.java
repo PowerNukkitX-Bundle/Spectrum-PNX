@@ -27,7 +27,6 @@ package org.powernukkitx.spectrum.api.packet;
  */
 
 import io.netty.buffer.ByteBuf;
-import org.cloudburstmc.protocol.common.util.VarInts;
 
 import java.nio.charset.StandardCharsets;
 
@@ -47,14 +46,14 @@ public abstract class SpectrumPacket {
     }
 
     protected String readString(ByteBuf stream) {
-        byte[] bytes = new byte[VarInts.readUnsignedInt(stream)];
+        byte[] bytes = new byte[stream.readIntLE()];
         stream.readBytes(bytes);
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
     protected void writeString(ByteBuf stream, String str) {
         byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        VarInts.writeUnsignedInt(stream, bytes.length);
+        stream.writeIntLE(bytes.length);
         stream.writeBytes(bytes);
     }
 }

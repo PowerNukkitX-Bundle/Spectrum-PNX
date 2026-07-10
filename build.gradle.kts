@@ -18,6 +18,7 @@ dependencies {
     compileOnly(libs.bedrock.connection)
     compileOnly(libs.oshi.core)
     compileOnly(libs.okaeri.configs.core)
+    compileOnly(libs.aircompressor)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }

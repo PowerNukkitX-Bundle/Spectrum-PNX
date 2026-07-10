@@ -45,10 +45,12 @@ public class KickPacket extends SpectrumPacket {
     @Override
     protected void decode(ByteBuf stream) {
         this.reason = readString(stream);
+        this.username = readString(stream);
     }
 
     @Override
     protected void encode(ByteBuf stream) {
         writeString(stream, this.getReason());
+        writeString(stream, this.getUsername());
     }
 }

@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class APIThread extends Thread {
@@ -74,14 +73,6 @@ public class APIThread extends Thread {
     @Override
     public void run() {
         this.running = true;
-        this.socket = new Socket();
-
-        try {
-            this.socket.setSoTimeout(1); // Socket cannot be non-blocking, but we can set a very short timeout to achieve a similar effect
-        } catch (SocketException e) {
-            this.logger.error("Failed to set socket timeout: {}", e);
-        }
-
         this.connect();
 
         ConnectionRequestPacket requestPacket = new ConnectionRequestPacket();
@@ -95,7 +86,7 @@ public class APIThread extends Thread {
             return;
         }
 
-        int connectionResponseId = connectionResponse.readInt();
+        int connectionResponseId = connectionResponse.readIntLE();
         if (connectionResponseId != PacketIds.CONNECTION_RESPONSE) {
             this.logger.error("Received invalid connection response packet with id: " + connectionResponseId);
             return;
@@ -162,14 +153,13 @@ public class APIThread extends Thread {
     private ByteBuf internalRead(int length) {
         try {
             InputStream in = this.socket.getInputStream();
-            byte[] data = new byte[length];
-            int bytes = in.read(data, 0, length);
+            byte[] data = in.readNBytes(length);
 
-            if (bytes == -1) {
-                return null; // Socket closed
+            if (data.length < length) {
+                return null; // Socket closed before enough data arrived
             }
 
-            return Unpooled.wrappedBuffer(data, 0, bytes);
+            return Unpooled.wrappedBuffer(data);
         } catch (IOException e) {
             return null;
         }
@@ -222,6 +212,13 @@ public class APIThread extends Thread {
     private void connect() {
         while (true) {
             try {
+                if (this.socket != null) {
+                    try {
+                        this.socket.close();
+                    } catch (IOException ignored) {
+                    }
+                }
+                this.socket = new Socket();
                 this.socket.connect(new InetSocketAddress(this.address, this.port));
                 this.logger.debug("Socket successfully connected");
                 return;
@@ -231,7 +228,7 @@ public class APIThread extends Thread {
                 }
                 this.logger.debug("Socket failed to connect due to: {}, retrying again in 3 seconds...", e);
                 try {
-                    this.wait(3000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException ie) {
                     Thread.currentThread().interrupt();
                     return;
