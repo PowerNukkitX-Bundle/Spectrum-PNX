@@ -26,8 +26,8 @@ package org.powernukkitx.spectrum;
   @auto-license
  */
 
-import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.utils.ConfigSection;
+import org.powernukkitx.plugin.PluginBase;
+import org.powernukkitx.utils.ConfigSection;
 import org.powernukkitx.spectrum.api.APIThread;
 import org.powernukkitx.spectrum.listener.EventListener;
 

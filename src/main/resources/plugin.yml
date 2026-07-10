@@ -1,6 +1,6 @@
 name: Spectrum
 version: 1.0.0
-api-version: 2.0.0
+api: 3.0.0
 description: Spectrum-PNX is an implementation of the Spectrum proxy for PowerNukkitX
 authors: ["PowerNukkitX Team", "cooldogedev"]
 main: org.powernukkitx.spectrum.Spectrum

@@ -1,7 +1,13 @@
 [versions]
-powernukkitx = "2.0.0-SNAPSHOT"
+powernukkitx = "nightly-SNAPSHOT"
+bedrock-connection = "3.0.0.Beta7-Debug-SNAPSHOT"
+oshi = "6.4.10"
+okaeri = "5.0.1"
 lombok = "1.18.32"
 
 [libraries]
 powernukkitx-server = { module = "org.powernukkitx:server", version.ref = "powernukkitx" }
+bedrock-connection = { module = "org.powernukkitx.protocol:bedrock-connection", version.ref = "bedrock-connection" }
+oshi-core = { module = "com.github.oshi:oshi-core", version.ref = "oshi" }
+okaeri-configs-core = { module = "eu.okaeri:okaeri-configs-core", version.ref = "okaeri" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }

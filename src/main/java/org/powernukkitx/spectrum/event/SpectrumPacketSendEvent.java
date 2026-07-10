@@ -1,8 +1,8 @@
 package org.powernukkitx.spectrum.event;
 
-import cn.nukkit.event.Cancellable;
-import cn.nukkit.event.plugin.PluginEvent;
-import cn.nukkit.plugin.Plugin;
+import org.powernukkitx.event.Cancellable;
+import org.powernukkitx.event.plugin.PluginEvent;
+import org.powernukkitx.plugin.Plugin;
 import lombok.Getter;
 import lombok.Setter;
 import org.powernukkitx.spectrum.api.packet.SpectrumPacket;

@@ -26,20 +26,35 @@ package org.powernukkitx.spectrum.api.packet;
   @auto-license
  */
 
-import cn.nukkit.network.connection.util.HandleByteBuf;
+import io.netty.buffer.ByteBuf;
+import org.cloudburstmc.protocol.common.util.VarInts;
+
+import java.nio.charset.StandardCharsets;
 
 public abstract class SpectrumPacket {
     protected abstract int getId();
 
-    protected abstract void decode(HandleByteBuf stream);
-    protected abstract void encode(HandleByteBuf stream);
+    protected abstract void decode(ByteBuf stream);
+    protected abstract void encode(ByteBuf stream);
 
-    public final void decode0(HandleByteBuf stream) {
+    public final void decode0(ByteBuf stream) {
         this.decode(stream);
     }
 
-    public final void encode0(HandleByteBuf stream) {
+    public final void encode0(ByteBuf stream) {
         stream.writeIntLE(this.getId());
         this.encode(stream);
+    }
+
+    protected String readString(ByteBuf stream) {
+        byte[] bytes = new byte[VarInts.readUnsignedInt(stream)];
+        stream.readBytes(bytes);
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    protected void writeString(ByteBuf stream, String str) {
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        VarInts.writeUnsignedInt(stream, bytes.length);
+        stream.writeBytes(bytes);
     }
 }

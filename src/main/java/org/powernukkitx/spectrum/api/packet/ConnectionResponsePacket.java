@@ -26,7 +26,7 @@ package org.powernukkitx.spectrum.api.packet;
   @auto-license
  */
 
-import cn.nukkit.network.connection.util.HandleByteBuf;
+import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,12 +45,12 @@ public class ConnectionResponsePacket extends SpectrumPacket {
     }
 
     @Override
-    protected void decode(HandleByteBuf stream) {
+    protected void decode(ByteBuf stream) {
         this.response = stream.readByte();
     }
 
     @Override
-    protected void encode(HandleByteBuf stream) {
+    protected void encode(ByteBuf stream) {
         stream.writeByte(this.getResponse());
     }
 }

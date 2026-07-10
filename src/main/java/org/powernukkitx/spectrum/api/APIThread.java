@@ -26,9 +26,8 @@ package org.powernukkitx.spectrum.api;
   @auto-license
  */
 
-import cn.nukkit.Server;
-import cn.nukkit.network.connection.util.HandleByteBuf;
-import cn.nukkit.plugin.PluginLogger;
+import org.powernukkitx.Server;
+import org.powernukkitx.plugin.PluginLogger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.powernukkitx.spectrum.Spectrum;
@@ -103,7 +102,7 @@ public class APIThread extends Thread {
         }
 
         ConnectionResponsePacket packet = new ConnectionResponsePacket();
-        packet.decode0(HandleByteBuf.of(connectionResponse));
+        packet.decode0(connectionResponse);
 
         if (packet.response != ConnectionResponsePacket.RESPONSE_SUCCESS) {
             this.logger.error("Connection request was rejected by the server with response code: " + packet.response);
@@ -188,7 +187,7 @@ public class APIThread extends Thread {
         if (event.isCancelled()) return;
 
         ByteBuf buf = Unpooled.buffer();
-        packet.encode0(HandleByteBuf.of(buf));
+        packet.encode0(buf);
 
         synchronized (this) {
             this.buffer.addLast(buf);

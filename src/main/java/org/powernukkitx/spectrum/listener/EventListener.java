@@ -1,8 +1,8 @@
 package org.powernukkitx.spectrum.listener;
 
-import cn.nukkit.event.EventHandler;
-import cn.nukkit.event.Listener;
-import cn.nukkit.event.network.NetworkRegisterEvent;
+import org.powernukkitx.event.EventHandler;
+import org.powernukkitx.event.Listener;
+import org.powernukkitx.event.network.NetworkRegisterEvent;
 import org.powernukkitx.spectrum.network.ProxyInterface;
 
 public class EventListener implements Listener {

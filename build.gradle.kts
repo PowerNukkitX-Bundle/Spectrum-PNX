@@ -4,7 +4,7 @@ plugins {
 
 group = "org.powernukkitx"
 version = "1.0-SNAPSHOT"
-5
+
 repositories {
     mavenCentral()
     maven("https://www.jitpack.io")
@@ -15,6 +15,9 @@ repositories {
 
 dependencies {
     compileOnly(libs.powernukkitx.server)
+    compileOnly(libs.bedrock.connection)
+    compileOnly(libs.oshi.core)
+    compileOnly(libs.okaeri.configs.core)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 }
