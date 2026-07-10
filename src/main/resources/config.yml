@@ -1,0 +1,16 @@
+# Spectrum-PNX configuration
+
+# Spectral transport - replaces the default RakNet interface so the Spectrum proxy can
+# dial into this server. When enabled the server no longer accepts direct RakNet clients.
+spectral:
+  enabled: false
+  host: 0.0.0.0
+  # 0 means reuse the server-port from server.properties
+  port: 0
+
+# TCP control channel used to send transfer/kick commands to the proxy's API server.
+api:
+  enabled: false
+  token: ""
+  address: 127.0.0.1
+  port: 19132
